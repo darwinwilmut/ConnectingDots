@@ -1,0 +1,25 @@
+pipeline {
+    agent { label 'linux' }
+    stages {
+        stage('Git Clone') { 
+            steps {
+                sh "rm -rf ./sample-application"
+                sh "git clone https://github.com/darwinwilmut/sample-application.git"
+            }
+        }
+        stage('Build & Push') { 
+            steps {
+                sh "docker build -t darwinwilmut/sample-application:${currentBuild.number} ./sample-application/node-app"
+                withDockerRegistry([ credentialsId: "dockerlogin", url: "" ]) {
+                    sh "docker push darwinwilmut/sample-application:${currentBuild.number}"
+                }
+            }
+        }
+        stage('Helm Upgrade') {
+            agent { label 'windows' }
+            steps {
+                bat "helm upgrade sample-application mygitrepo/sample-application --set image.tag=${currentBuild.number}"
+            }
+        }
+    }
+}

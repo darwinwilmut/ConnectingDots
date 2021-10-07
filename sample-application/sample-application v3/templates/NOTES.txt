@@ -1,0 +1,14 @@
+      SAMPLE APPLICATION
+      
+Chart Name = {{ .Chart.Name }}.
+Release Name = {{ .Release.Name }}.
+
+Commands:
+  To uninstall :
+
+      * helm uninstall {{ .Release.Name }}
+
+  To see the deployed template :
+
+      * helm get all {{ .Release.Name }}
+  

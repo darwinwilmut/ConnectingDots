@@ -1,0 +1,22 @@
+deploymentname: sample-application
+
+metaname: sample-application
+
+containername: nodejs
+
+containerport: 80
+
+replicaCount: 1
+
+appname: sample-application
+
+image:
+  repository: darwinwilmut/sample-application
+  pullPolicy: Always
+
+servicename: backend
+
+service:
+  port: 80
+  type: LoadBalancer
+
